@@ -198,7 +198,13 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin{
                                 fontWeight: FontWeight.bold
                               ),
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () => launchUrlString('https://www.example.com'),
+                                ..onTap = () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SignIn(),
+                                    ),
+                                ),
                             ),
                           ],
                         ),

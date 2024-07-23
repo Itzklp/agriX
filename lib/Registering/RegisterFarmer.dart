@@ -71,6 +71,7 @@ class _RegisterfarmerState extends State<Registerfarmer> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
     return AnimatedBuilder(
         animation: animationController,
         builder: (context, child) {
@@ -78,8 +79,9 @@ class _RegisterfarmerState extends State<Registerfarmer> with SingleTickerProvid
             body: Center(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 60.0,),
                     Transform(
                       transform: Matrix4.translationValues(
                           animation.value * width, 0.0, 0.0),
@@ -124,52 +126,26 @@ class _RegisterfarmerState extends State<Registerfarmer> with SingleTickerProvid
                                   Icons.perm_identity, TextInputType.number),
                               const SizedBox(height: 20.0,),
                               _buildTextFormField(
-                                  'Company Address', 'Enter company address',
+                                  'Soil Type', 'Enter soil type',
                                   Icons.location_city,
                                   TextInputType.streetAddress),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField(
-                                  'Email', 'Enter company email', Icons.email,
-                                  TextInputType.emailAddress),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField(
-                                  'Phone Number', 'Enter company phone number',
-                                  Icons.phone, TextInputType.phone),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField(
-                                  'Website', 'Enter company website', Icons.web,
-                                  TextInputType.url),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField(
-                                  'Authorized Representative Name',
-                                  'Enter representative name', Icons.person,
-                                  TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField(
-                                  'Position', 'Enter representative position',
-                                  Icons.work, TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Representative Email',
-                                  'Enter representative email', Icons.email,
-                                  TextInputType.emailAddress),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Representative Phone Number',
-                                  'Enter representative phone number',
-                                  Icons.phone, TextInputType.phone),
                               const SizedBox(height: 20.0,),
 
                               // File pickers
                               _buildFilePicker(
-                                  'Company Incorporation Certificate',
+                                  'Aadhaar Card',
                                   _incorporationFileName, () =>
-                                  _pickFile('incorporation')),
+                                  _pickFile('aadhaar')),
                               const SizedBox(height: 20.0,),
-                              _buildFilePicker('Company Insurance Certificate',
+                              _buildFilePicker('Pan Card',
                                   _insuranceFileName, () =>
-                                      _pickFile('insurance')),
+                                      _pickFile('pan')),
                               const SizedBox(height: 20.0,),
-                              _buildFilePicker('Representative Aadhaar Card',
-                                  _aadhaarFileName, () => _pickFile('aadhaar')),
+                              _buildFilePicker('Form 7/12/8A',
+                                  _aadhaarFileName, () => _pickFile('landform')),
+                              const SizedBox(height: 20.0,),
+                              _buildFilePicker('Soil DNA',
+                                  _aadhaarFileName, () => _pickFile('soildna')),
 
                               const SizedBox(height: 20.0,),
                               ElevatedButton(

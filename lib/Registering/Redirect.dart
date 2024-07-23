@@ -1,16 +1,19 @@
-import 'package:agrix/Registering/SignIn.dart';
+import 'package:agrix/Registering/RegisterCompany.dart';
+import 'package:agrix/Registering/RegisterFarmer.dart';
 import 'package:flutter/material.dart';
+import 'SignIn.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({super.key});
+class Redirect extends StatefulWidget {
+  const Redirect({Key? key}) : super(key: key);
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  State<Redirect> createState() => _RedirectState();
 }
 
-class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStateMixin {
+class _RedirectState extends State<Redirect> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation, delayedAnimation, muchDelayedAnimation, muchMuchDelayedAnimation;
+  bool isFarmerSelected = true;
 
   @override
   void initState() {
@@ -85,44 +88,68 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
                 const SizedBox(height: 40.0),
                 Transform(
                   transform: Matrix4.translationValues(muchMuchDelayedAnimation.value * width, 0.0, 0.0),
-                  child: const Text(
-                    'Warm regards,\nThe agriX Team',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 40.0),
-                Transform(
-                  transform: Matrix4.translationValues(muchMuchDelayedAnimation.value * width, 0.0, 0.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              SignIn(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Registerfarmer(),
+                              ),
+                            );
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isFarmerSelected ? Colors.green : Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, // Background color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0), // Rounded corners
+                        child: const Text(
+                          'I am Farmer',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0), // Button padding
-                    ),
-                    child: const Text(
-                      'Get Started',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.white,
+                      const SizedBox(width: 20.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RegisterCompany(),
+                              ),
+                            );
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: !isFarmerSelected ? Colors.green : Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                        ),
+                        child: const Text(
+                          'I am Company',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
+                const SizedBox(height: 20.0),
               ],
             ),
           ),
