@@ -23,12 +23,22 @@ class _RegisterCompanyState extends State<RegisterCompany> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(vsync: this, duration: const Duration(seconds: 5));
-    animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
-    animation = Tween<double>(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
-    delayedAnimation = Tween<double>(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: const Interval(0.2, 1.0, curve: Curves.fastOutSlowIn)));
-    muchDelayedAnimation = Tween<double>(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: const Interval(0.5, 1.0, curve: Curves.fastOutSlowIn)));
-    muchMuchDelayedAnimation = Tween<double>(begin: -1.0, end: 0.0).animate(CurvedAnimation(parent: animationController, curve: const Interval(0.8, 1.0, curve: Curves.fastOutSlowIn)));
+    animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    animation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
+    animation = Tween<double>(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
+    delayedAnimation = Tween<double>(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(parent: animationController, curve: const Interval(0.2, 1.0, curve: Curves.easeInOut)),
+    );
+    muchDelayedAnimation = Tween<double>(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(parent: animationController, curve: const Interval(0.5, 1.0, curve: Curves.easeInOut)),
+    );
+    muchMuchDelayedAnimation = Tween<double>(begin: -1.0, end: 0.0).animate(
+      CurvedAnimation(parent: animationController, curve: const Interval(0.8, 1.0, curve: Curves.easeInOut)),
+    );
 
     animationController.forward();
   }
@@ -59,13 +69,19 @@ class _RegisterCompanyState extends State<RegisterCompany> with SingleTickerProv
             }
           });
         } else {
-          print('User canceled the picker');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('User canceled the picker')),
+          );
         }
       } catch (e) {
-        print('Error picking file: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error picking file: $e')),
+        );
       }
     } else {
-      print('Permission not granted');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Permission not granted')),
+      );
     }
   }
 
@@ -73,124 +89,129 @@ class _RegisterCompanyState extends State<RegisterCompany> with SingleTickerProv
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return AnimatedBuilder(
-        animation: animationController,
-        builder: (context, child) {
-          return Scaffold(
-            body: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Transform(
-                      transform: Matrix4.translationValues(animation.value * width, 0.0, 0.0),
-                      child: const Text(
-                        'Welcome',
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
+      animation: animationController,
+      builder: (context, child) {
+        return Scaffold(
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 50),
+                  Transform(
+                    transform: Matrix4.translationValues(animation.value * width, 0.0, 0.0),
+                    child: const Text(
+                      'Welcome',
+                      style: TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
                       ),
+                      textAlign: TextAlign.left,
                     ),
-                    const SizedBox(height: 20,),
-                    Transform(
-                      transform: Matrix4.translationValues(delayedAnimation.value * width, 0.0, 0.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _buildTextFormField('Company Name', 'Enter company name', Icons.business, TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Business Type', 'Enter business type', Icons.category, TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Registration Number', 'Enter registration number', Icons.numbers, TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Tax ID', 'Enter tax identification number', Icons.description, TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Year of Establishment', 'Enter year of establishment', Icons.calendar_today, TextInputType.number),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Company Address', 'Enter company address', Icons.location_city, TextInputType.streetAddress),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Email', 'Enter company email', Icons.email, TextInputType.emailAddress),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Phone Number', 'Enter company phone number', Icons.phone, TextInputType.phone),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Website', 'Enter company website', Icons.web, TextInputType.url),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Authorized Representative Name', 'Enter representative name', Icons.person, TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Position', 'Enter representative position', Icons.work, TextInputType.text),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Representative Email', 'Enter representative email', Icons.email, TextInputType.emailAddress),
-                              const SizedBox(height: 20.0,),
-                              _buildTextFormField('Representative Phone Number', 'Enter representative phone number', Icons.phone, TextInputType.phone),
-                              const SizedBox(height: 20.0,),
+                  ),
+                  const SizedBox(height: 20),
+                  Transform(
+                    transform: Matrix4.translationValues(delayedAnimation.value * width, 0.0, 0.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildTextFormField('Company Name', 'Enter company name', Icons.business, TextInputType.text),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Business Type', 'Enter business type', Icons.category, TextInputType.text),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Registration Number', 'Enter registration number', Icons.numbers, TextInputType.text),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Tax ID', 'Enter tax identification number', Icons.description, TextInputType.text),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Year of Establishment', 'Enter year of establishment', Icons.calendar_today, TextInputType.number),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Company Address', 'Enter company address', Icons.location_city, TextInputType.streetAddress),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Email', 'Enter company email', Icons.email, TextInputType.emailAddress),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Phone Number', 'Enter company phone number', Icons.phone, TextInputType.phone),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Website', 'Enter company website', Icons.web, TextInputType.url),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Authorized Representative Name', 'Enter representative name', Icons.person, TextInputType.text),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Position', 'Enter representative position', Icons.work, TextInputType.text),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Representative Email', 'Enter representative email', Icons.email, TextInputType.emailAddress),
+                          const SizedBox(height: 20.0),
+                          _buildTextFormField('Representative Phone Number', 'Enter representative phone number', Icons.phone, TextInputType.phone),
+                          const SizedBox(height: 20.0),
 
-                              // File pickers
-                              _buildFilePicker('Company Incorporation Certificate', _incorporationFileName, () => _pickFile('incorporation')),
-                              const SizedBox(height: 20.0,),
-                              _buildFilePicker('Company Insurance Certificate', _insuranceFileName, () => _pickFile('insurance')),
-                              const SizedBox(height: 20.0,),
-                              _buildFilePicker('Representative Aadhaar Card', _aadhaarFileName, () => _pickFile('aadhaar')),
+                          // File pickers
+                          _buildFilePicker('Company Incorporation Certificate', _incorporationFileName, () => _pickFile('incorporation')),
+                          const SizedBox(height: 20.0),
+                          _buildFilePicker('Company Insurance Certificate', _insuranceFileName, () => _pickFile('insurance')),
+                          const SizedBox(height: 20.0),
+                          _buildFilePicker('Representative Aadhaar Card', _aadhaarFileName, () => _pickFile('aadhaar')),
 
-                              const SizedBox(height: 20.0,),
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    // Handle form submission
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                                ),
-                                child: const Text(
-                                  'Get Started',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                          const SizedBox(height: 20.0),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // Handle form submission
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Form submitted successfully')),
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
                               ),
-                              const SizedBox(height: 20,),
-                              RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    const TextSpan(
-                                      text: 'Already have an account? ',
-                                      style: TextStyle(color: Colors.black87, fontSize: 15),
-                                    ),
-                                    TextSpan(
-                                      text: 'Sign in',
-                                      style: const TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 15,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () => launchUrlString('https://www.example.com'),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                            ),
+                            child: const Text(
+                              'Get Started',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
-                        ),
+                          const SizedBox(height: 20),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                const TextSpan(
+                                  text: 'Already have an account? ',
+                                  style: TextStyle(color: Colors.black87, fontSize: 15),
+                                ),
+                                TextSpan(
+                                  text: 'Sign in',
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => launchUrlString('https://www.example.com'),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          );
-        }
+          ),
+        );
+      },
     );
   }
 
@@ -201,9 +222,9 @@ class _RegisterCompanyState extends State<RegisterCompany> with SingleTickerProv
         labelText: labelText,
         prefixIcon: Icon(
           icon,
-          color: Colors.black87,
+          color: Colors.green,
         ),
-        errorStyle: const TextStyle(fontSize: 18.0),
+        errorStyle: const TextStyle(fontSize: 14.0, color: Colors.red),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.green),
           borderRadius: BorderRadius.circular(10.0),
@@ -232,26 +253,28 @@ class _RegisterCompanyState extends State<RegisterCompany> with SingleTickerProv
       children: [
         Text(
           labelText,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
         ),
         const SizedBox(height: 8.0),
         Row(
           children: [
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: onPressed,
+              icon: const Icon(Icons.upload_file, color: Colors.white),
+              label: const Text('Pick File', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
-              child: const Text('Pick File', style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 20.0),
             Expanded(
               child: Text(
                 fileName ?? 'No file selected',
-                style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+                style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black54),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
