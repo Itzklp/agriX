@@ -252,7 +252,7 @@ class _OrdersummaryState extends State<Ordersummary> {
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.green,
                       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
